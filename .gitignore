@@ -1,0 +1,67 @@
+### Environment files
+.env
+.env.*
+!.env.example
+
+### Secrets (DO NOT COMMIT REAL SECRETS)
+# Per-env secrets files (keep only .example in git)
+config/*/.secrets.toml
+.secrets.toml
+### Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+*.egg-info/
+.eggs/
+build/
+dist/
+pip-wheel-metadata/
+*.egg
+
+### Virtual environments
+.venv/
+venv/
+.envrc
+
+### Tooling caches
+.mypy_cache/
+.ruff_cache/
+.pytype/
+.pytest_cache/
+.coverage
+.coverage.*
+coverage.xml
+htmlcov/
+.tox/
+
+### IDE / Editor
+.vscode/
+.idea/
+*.code-workspace
+
+### OS junk
+.DS_Store
+Thumbs.db
+
+### Logs & temp
+logs/
+*.log
+tmp/
+temp/
+.cache/
+
+### Docker & env variants
+docker-compose.override.yml
+.env.local
+.env.dev
+.env.prod
+
+### Data / Artifacts (adjust as needed)
+data/
+storage/
+outputs/
+
+### Jupyter
+.ipynb_checkpoints

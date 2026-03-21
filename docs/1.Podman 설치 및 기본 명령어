@@ -1,0 +1,73 @@
+# Podman 학습  
+---
+
+## Podman VS Docker
+
+### Podman을 이해하기 위해 **Daemon**을 먼저 이해할 필요가 있다.
+- Daemon: 사용자가 직접 제어하지 않고, **백그라운드**에서 돌면서 작업을 하는 프로그램
+
+- Docker (Daemon 기반)
+    - Docker 엔진은 백그라운드에서 동작하는 데몬(dockerd)을 두고, 클라이언트는 이 데몬과 통신해 컨테이너를 제어한다.
+    - 따라서 docker run 명령어 실행 시, 데몬에게 컨테이너 실행 명령을 내리게 되는 것이다.
+    - 이런 방식은 편리하게 컨테이너를 실행 가능하지만 데몬은 기본적으로 root 권한으로 실행하기 때문에 데몬이 해킹당하거나 장애가 생긴다면, 그 안에 있는 모든 컨테이너가 위험해질 수 있는 SPOF(Single Point Of Failure)가 존재한다.
+
+- Podman (Daemonless)
+    - Podman은 데몬이 없다.
+    - 따라서 podman run 명령어 실행 시, Linux Kernel과 직접 통신하여 컨테이너를 만든다.
+    - 중간에 데몬이 없기 때문에 빠르고 가볍게 실행 가능하고 일반 사용자 계정만으로도 안전하게 컨테이너를 실행 가능하다.
+---
+
+## 실습 1. Podman 설치 (Rocky Linux)
+
+1. **Podaman** 설치
+
+```bash
+sudo dnf install -y podman
+```
+
+2. 설치 성공 확인을 위한 version 확인
+
+```bash
+podman --version
+```
+---
+
+## 실습 2. 컨테이너 제어 기본 명령어 (Tomcat)
+
+1. Tomcat 이미지 다운로드 및 백그라운드 실행
+
+```bash
+# 옵션: 백그라운드(-d), 이름지정(--name), 포트연결(-p 호스트:컨테이너)
+podman run -d --name my-tomcat -p 8080:8080 docker.io/library/tomcat:10.1
+```
+
+2. 실행 확인 및 로그 보기
+
+```bash
+# 구동 중인 컨테이너 목록 확인
+podman ps
+# Tomcat의 애플리케이션 시작 로그 확인
+podman logs my-tomcat
+```
+
+> 로그 확인 시 Server startup in [xxxx] miliseconds 같은 문구가 보인다면 서버 정상 실행
+
+3. 다운로드된 이미지 리스트 확인
+
+```bash
+podman images
+```
+
+4. 컨테이너 중지 및 삭제
+
+```bash
+# 서버 구동 중지
+podman stop my-tomcat
+
+# 중지된 컨테이너 확인
+podman ps -a
+
+# 흔적 삭제 (완전 삭제)
+podman rm my-tomcat
+```
+---
